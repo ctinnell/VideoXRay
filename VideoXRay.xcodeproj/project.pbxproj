@@ -12,6 +12,8 @@
 		84F841221F94EA3400979B7D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84F841201F94EA3400979B7D /* Main.storyboard */; };
 		84F841241F94EA3400979B7D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84F841231F94EA3400979B7D /* Assets.xcassets */; };
 		84F841271F94EA3400979B7D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84F841251F94EA3400979B7D /* LaunchScreen.storyboard */; };
+		84F8412F1F94ED0900979B7D /* SqueezeNet.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 84F8412E1F94EB2300979B7D /* SqueezeNet.mlmodel */; };
+		84F841311F94ED8100979B7D /* CapturePreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F841301F94ED8100979B7D /* CapturePreviewView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +25,7 @@
 		84F841261F94EA3400979B7D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		84F841281F94EA3400979B7D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		84F8412E1F94EB2300979B7D /* SqueezeNet.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = SqueezeNet.mlmodel; sourceTree = "<group>"; };
+		84F841301F94ED8100979B7D /* CapturePreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapturePreviewView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +63,7 @@
 				84F841201F94EA3400979B7D /* Main.storyboard */,
 				84F841231F94EA3400979B7D /* Assets.xcassets */,
 				84F841251F94EA3400979B7D /* LaunchScreen.storyboard */,
+				84F841301F94ED8100979B7D /* CapturePreviewView.swift */,
 				84F841281F94EA3400979B7D /* Info.plist */,
 				84F8412E1F94EB2300979B7D /* SqueezeNet.mlmodel */,
 			);
@@ -138,7 +142,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84F841311F94ED8100979B7D /* CapturePreviewView.swift in Sources */,
 				84F8411F1F94EA3400979B7D /* ViewController.swift in Sources */,
+				84F8412F1F94ED0900979B7D /* SqueezeNet.mlmodel in Sources */,
 				84F8411D1F94EA3400979B7D /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
