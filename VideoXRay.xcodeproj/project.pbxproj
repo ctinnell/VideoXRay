@@ -22,6 +22,7 @@
 		84F841231F94EA3400979B7D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		84F841261F94EA3400979B7D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		84F841281F94EA3400979B7D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		84F8412E1F94EB2300979B7D /* SqueezeNet.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = SqueezeNet.mlmodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +61,7 @@
 				84F841231F94EA3400979B7D /* Assets.xcassets */,
 				84F841251F94EA3400979B7D /* LaunchScreen.storyboard */,
 				84F841281F94EA3400979B7D /* Info.plist */,
+				84F8412E1F94EB2300979B7D /* SqueezeNet.mlmodel */,
 			);
 			path = VideoXRay;
 			sourceTree = "<group>";
