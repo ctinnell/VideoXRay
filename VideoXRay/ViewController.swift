@@ -16,7 +16,7 @@ enum SetupError: Error {
 class ViewController: UIViewController {
 
     let session = AVCaptureSession()
-    let viewOutput = AVCaptureVideoDataOutput()
+    let videoOutput = AVCaptureVideoDataOutput()
     var capturePreview = CapturePreviewView()
     var assetWriter: AVAssetWriter!
     var writerInput: AVAssetWriterInput!
@@ -55,6 +55,7 @@ class ViewController: UIViewController {
     @objc func startRecording() {
         recordingActive = true
         session.startRunning()
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Stop", style: .plain, target: self, action: #selector(stopRecording))
     }
     
     func configureVideoDeviceInput() throws {
@@ -75,7 +76,92 @@ class ViewController: UIViewController {
     func configureSession() throws {
         session.beginConfiguration()
         try configureVideoDeviceInput()
+        try configureDeviceOutput()
+        try configureMovieWriting()
         session.commitConfiguration()
+    }
+    
+    func configureDeviceOutput() throws {
+        if session.canAddOutput(videoOutput) {
+            videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue.main)
+            session.addOutput(videoOutput)
+            
+            for connection in videoOutput.connections {
+                for port in connection.inputPorts {
+                    if port.mediaType == .video {
+                        connection.videoOrientation = .portrait
+                    }
+                }
+            }
+        }
+        else {
+            throw SetupError.videoOutputFailed
+        }
+    }
+    
+    func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[0]
+    }
+    
+    func configureMovieWriting() throws {
+        movieURL = getDocumentsDirectory().appendingPathComponent("movie.mov")
+        let fm = FileManager.default
+        
+        if fm.fileExists(atPath: movieURL.path) {
+            print("movieURL: \(movieURL)")
+            try fm.removeItem(at: movieURL)
+        }
+        
+        assetWriter = try AVAssetWriter(url: movieURL, fileType: .mp4)
+        
+        let settings = videoOutput.recommendedVideoSettingsForAssetWriter(writingTo: .mp4)
+        writerInput = AVAssetWriterInput(mediaType: .video, outputSettings: settings)
+        writerInput.expectsMediaDataInRealTime = true
+        
+        if assetWriter.canAdd(writerInput) {
+            assetWriter.add(writerInput)
+        }
+    }
+    
+    @objc func stopRecording() {
+        recordingActive = false
+        assetWriter?.finishWriting {
+            if (self.assetWriter?.status == .failed) {
+                print("Failed to save")
+            }
+            else {
+                print("Succeeded saving")
+            }
+        }
+    }
+}
+
+extension ViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
+    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        guard recordingActive else { return }
+        guard CMSampleBufferDataIsReady(sampleBuffer) == true else { return }
+        guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
+        
+        let currentTime = CMSampleBufferGetPresentationTimeStamp(sampleBuffer)
+        
+        if assetWriter.status == .unknown {
+            //we'll use this later
+            startTime = currentTime
+            
+            assetWriter.startWriting()
+            assetWriter.startSession(atSourceTime: currentTime)
+            
+            return
+        }
+        
+        if assetWriter.status == .failed {
+            return
+        }
+        
+        if writerInput.isReadyForMoreMediaData {
+            writerInput.append(sampleBuffer)
+        }
     }
 }
 
